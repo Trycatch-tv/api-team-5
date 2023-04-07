@@ -13,6 +13,7 @@ let userSchema = new Schema({
     },
     email: {
         type: String,
+        unique: true,
         required: [true, 'El correo electrónico es requerido']
     },
     password: {
