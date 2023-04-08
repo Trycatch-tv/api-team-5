@@ -4,14 +4,25 @@ exports.index = async(req, res, next) => {
 
     await Event.find({})
         .then((documents) => {
-            return res.status(200).json({data: documents});
+            return res.json({data: documents});
         }).catch(errors => {
-            res.json({errors});
+            return res.json({errors});
         });
         
 }
 
-exports.create = async (req, res, next) => {
+exports.show = async(req, res, next) => {
+
+    await Event.findById(req.params.id)
+        .then((document) => {
+            return res.json({data: document});
+        }).catch(errors => {
+            return res.json({errors});
+        });
+
+}
+
+exports.create = async(req, res, next) => {
 
     let input = req.body;
 
@@ -21,9 +32,29 @@ exports.create = async (req, res, next) => {
             location: input.location, 
             date: input.date
         }).then(document => {
-            res.status(200).json({data: document});
+            return res.json({data: document});
         }).catch(errors => {
-            res.json({errors});
+            return res.json({errors});
         });
 
+}
+
+exports.update = async(req, res, next) => {
+
+    let input = req.body;
+
+    let event = {name: input.name, description: input.description, location: input.location, date: input.date};
+
+    await Event.findByIdAndUpdate(req.params.id, event, {new: true})
+        .then((document) => {
+            return res.json({data: document});
+        })
+        .catch((errors) => {
+            return res.json({errors});
+        });
+
+}
+
+exports.delete = async(req, res, next) => {
+    
 }
