@@ -14,6 +14,7 @@ let userSchema = new Schema({
     email: {
         type: String,
         unique: true,
+        match: /.+\@.+\..+/,
         required: [true, 'El correo electrónico es requerido']
     },
     password: {
@@ -25,5 +26,13 @@ let userSchema = new Schema({
         default: Date.now 
     }
 });
+
+userSchema.methods.toJSON = function() {
+    let user = this;
+    let userObject = user.toObject();
+    delete userObject.password;
+
+    return userObject;
+}
 
 module.exports = mongoose.model('User', userSchema);
