@@ -2,31 +2,72 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+exports.index = async(req, res, next) => {
+    await User.find({is_admin: false})
+        .then((documents) => {
+            res.json({data: documents});
+        })
+        .catch((errors) => {
+            res.status(500).json(errors);
+        });
+}
+
 exports.create = async(req, res, next) => {
 
-    let input = req.body;
+    const {name, email, password} = req.body;
 
     await User.create({
-        name: input.name,
-        email: input.email,
-        password: bcrypt.hashSync(input.password, 10)
+        name: name,
+        email: email,
+        password: bcrypt.hashSync(password, 10)
     }).then((document) => {
-        res.json({message: '¡Usuario registrado!', email: input.email});
+        res.json({message: '¡Usuario registrado!', email: document.email});
     }).catch((errors) => {
         res.status(400).json(errors);
     });
 
 }
 
+exports.update = async(req, res, next) => {
+
+    let user = {};
+    user.name = req.body.name;
+
+    if(req.body.password) {
+        user.password = bcrypt.hashSync(req.body.password, 10);
+    }
+
+    await User.findByIdAndUpdate(req.params.id, user, {new: true})
+        .then((document) => {
+            res.json({message: '¡Usuario actualizado!', name: document.name});
+        })
+        .catch((errors) => {
+            res.status(400).json(errors);
+        });
+
+}
+
+exports.delete = async(req, res, next) => {
+
+    await User.findByIdAndDelete(req.params.id)
+        .then((document) => {
+            res.json({data: document});
+        })
+        .catch((errors) => {
+            res.status(400).json({errors});
+        });
+        
+}
+
 exports.auth = async(req, res, next) => {
 
-    let input = req.body;
+    const {email, password} = req.body;
 
-    const user = await User.findOne({email: input.email});
+    const user = await User.findOne({email});
 
     if (user) {
 
-        if(bcrypt.compareSync(input.password, user.password)) {
+        if(bcrypt.compareSync(password, user.password)) {
 
             let token = jwt.sign({
                 id: user._id,
