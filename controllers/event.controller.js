@@ -2,7 +2,13 @@ const Event = require("../models/event.model");
 
 exports.index = async(req, res, next) => {
 
-    await Event.find({})
+    let query = {};
+
+    if(req.query.name) {
+        query.name = new RegExp(req.query.name, 'i');
+    }
+
+    await Event.find(query)
         .then((documents) => {
             res.json({data: documents});
         }).catch(errors => {
