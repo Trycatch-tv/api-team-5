@@ -23,7 +23,7 @@ exports.create = async(req, res, next) => {
     }).then((document) => {
         res.json({message: '¡Usuario registrado!', email: document.email});
     }).catch((errors) => {
-        res.status(400).json(errors);
+        res.status(500).json(errors);
     });
 
 }
@@ -42,7 +42,7 @@ exports.update = async(req, res, next) => {
             res.json({message: '¡Usuario actualizado!', name: document.name});
         })
         .catch((errors) => {
-            res.status(400).json(errors);
+            res.status(500).json(errors);
         });
 
 }
@@ -54,7 +54,7 @@ exports.delete = async(req, res, next) => {
             res.json({data: document});
         })
         .catch((errors) => {
-            res.status(400).json({errors});
+            res.status(500).json({errors});
         });
         
 }

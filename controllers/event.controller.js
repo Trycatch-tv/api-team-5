@@ -12,7 +12,7 @@ exports.index = async(req, res, next) => {
         .then((documents) => {
             res.json({data: documents});
         }).catch(errors => {
-            res.json({errors});
+            res.status(500).json({errors});
         });
         
 }
@@ -23,7 +23,7 @@ exports.show = async(req, res, next) => {
         .then((document) => {
             res.json({data: document});
         }).catch(errors => {
-            res.status(400).json({errors});
+            res.status(500).json({errors});
         });
 
 }
@@ -40,7 +40,7 @@ exports.create = async(req, res, next) => {
         }).then(document => {
             res.json({data: document});
         }).catch(errors => {
-            res.status(400).json({errors});
+            res.status(500).json({errors});
         });
 
 }
@@ -56,7 +56,7 @@ exports.update = async(req, res, next) => {
             res.json({data: document});
         })
         .catch((errors) => {
-            res.status(200).json({errors});
+            res.status(500).json({errors});
         });
 
 }
@@ -68,7 +68,7 @@ exports.delete = async(req, res, next) => {
             res.json({data: document});
         })
         .catch((errors) => {
-            res.status(400).json({errors});
+            res.status(500).json({errors});
         });
 
 }

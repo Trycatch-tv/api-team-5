@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 //routers
 const eventRouter = require('./routes/event.routes');
 const userRouter = require('./routes/user.routes');
+const inscriptionRouter = require('./routes/inscription.route');
 
 //routes
 app.get('/', (req, res) => {
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 });
 app.use('/events', eventRouter);
 app.use('/users', userRouter);
+app.use('/inscriptions', inscriptionRouter);
 
 //mongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/eventsdb', {useNewUrlParser: true, useUnifiedTopology: true});
