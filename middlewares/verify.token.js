@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 const verifyToken = (req, res, next) => {
     const token = req.headers['access-token'];
@@ -8,7 +9,7 @@ const verifyToken = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, 'signal');
+        const decoded = jwt.verify(token, config.TOKEN_SECRET);
         req.user = decoded;
 
         if(decoded.is_admin) {

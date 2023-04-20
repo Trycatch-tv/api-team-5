@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 exports.index = async(req, res, next) => {
     await User.find({is_admin: false})
@@ -73,7 +74,7 @@ exports.auth = async(req, res, next) => {
                 id: user._id,
                 is_admin: user.is_admin,
                 name: user.name
-            }, 'signal');
+            }, config.TOKEN_SECRET, {expiresIn: "3h"});
 
             res.json({message: '¡Usuario autenticado!', token});
 
