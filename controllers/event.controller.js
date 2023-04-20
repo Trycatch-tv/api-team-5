@@ -31,13 +31,10 @@ exports.show = async(req, res, next) => {
 exports.create = async(req, res, next) => {
 
     let input = req.body;
+    const { name, description, location, date } = req.body;
 
-    await Event.create({ 
-            name: input.name, 
-            description: input.description, 
-            location: input.location, 
-            date: input.date
-        }).then(document => {
+    await Event.create({ name, description, location, date})
+        .then(document => {
             res.json({data: document});
         }).catch(errors => {
             res.status(500).json({errors});
