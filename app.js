@@ -1,9 +1,9 @@
 const bodyParser = require('body-parser');
+const config = require('./config.js');
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000;
 
 //config cors
 app.use(cors({origin: '*', optionsSuccessStatus: 200}));
@@ -26,9 +26,9 @@ app.use('/users', userRouter);
 app.use('/inscriptions', inscriptionRouter);
 
 //mongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/eventsdb', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(config.MONGO_INFO, {useNewUrlParser: true, useUnifiedTopology: true});
 
 //start server
-app.listen(port, () => {
-    console.log(`Server on port ${port}`);
+app.listen(config.PORT, () => {
+    console.log(`Server on port ${config.PORT}`);
 });

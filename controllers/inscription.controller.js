@@ -13,3 +13,17 @@ exports.create = async(req, res, next) => {
         });
 
 }
+
+exports.delete = async(req, res, next) => {
+    
+    const { event_id, user_id } = req.params;
+
+    await Inscription.deleteOne({event_id, user_id})
+        .then((res) => {
+            res.json({message: '¡Has eliminado la asistencia a este evento!'});
+        })
+        .catch((errors) => {
+            res.status(500).json({errors});
+        });
+
+}
